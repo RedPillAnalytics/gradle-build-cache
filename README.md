@@ -57,7 +57,7 @@ buildCache {
 }
 ```
 
-Add this plugin to your `settings.gradle.kts` as follows:
+Add the plugin to your `settings.gradle.kts` as follows:
 
 ```kotlin
 plugins {
@@ -73,3 +73,4 @@ buildCache {
     }
 }
 ```
+
