@@ -14,27 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redpillanalytics.gradle.buildcache
+package com.redpillanalytics.buildcache
 
-import org.gradle.api.Plugin
-import org.gradle.api.initialization.Settings
+import org.gradle.caching.configuration.AbstractBuildCache
 
 /**
- * Settings-Plugin that configures the remote build cache to use the Google Cloud Storage based implementation.
+ * Configuration of the GCS based build cache.
  *
  * @author Thorsten Ehlers (thorsten.ehlers@googlemail.com) (initial creation)
+ * @author Reinier Goltstein (reinier@ridedott.com) (modifications)
  */
-class GCSBuildCachePlugin : Plugin<Settings> {
-
-    override fun apply(settings: Settings) {
-        settings.buildCache {
-            registerBuildCacheService(
-                GCSBuildCache::class.java,
-                GCSBuildCacheServiceFactory::class.java,
-            )
-            remote(GCSBuildCache::class.java) {
-                isPush = true
-            }
-        }
-    }
-}
+abstract class BuildCache(
+    var bucket: String = "",
+    var serviceAccountCredentialsFilePath: String = "",
+    var serviceAccountCredentialsJSON: String = "",
+    var expireAfterSeconds: Long = 0L
+) : AbstractBuildCache()
