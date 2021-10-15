@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ridedott.gradle.buildcache
+package com.redpillanalytics.gradle.buildcache
 
 import com.google.auth.Credentials
 import com.google.auth.oauth2.ServiceAccountCredentials

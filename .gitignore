@@ -1,5 +1,30 @@
-.gradle
-.idea
+# No log files
+*.log
+
+#IntelliJ stuff
 *.iml
-build
-examples
+
+# Gradle Build Directories
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Ignore all hidden files, except this one
+.*
+!.gitignore
+!.gcloudignore
+!.github/
+
+# Visual Studio Code build directory
+bin
+out
+
+# Misc
+*.hprof
+rpa-etl-converter.json
+models.zip
+version.txt

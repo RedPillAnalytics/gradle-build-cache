@@ -1,1 +1,1 @@
-rootProject.name = "gradle-gcs-build-cache"
+rootProject.name = "gradle-build-cache"

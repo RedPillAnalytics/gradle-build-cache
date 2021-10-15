@@ -44,11 +44,11 @@ Add this plugin to your `settings.gradle.kts` as follows:
 
 ```kotlin
 plugins {
-    id("com.ridedott.gradle-gcs-build-cache") version "1.0.1"
+    id("com.redpillanalytics.gradle-build-cache") version "1.0.1"
 }
 
 buildCache {
-    remote<com.ridedott.gradle.buildcache.GCSBuildCache> {
+    remote<com.redpillanalytics.gradle.buildcache.GCSBuildCache> {
         bucket = "my-bucket-name" // required
         serviceAccountCredentialsFilePath = 'my-key.json' // optional
         serviceAccountCredentialsJSON = "{ ... }" // optional

@@ -4,14 +4,18 @@ plugins {
     id("com.github.hierynomus.license") version "0.16.1"
     id("com.gradle.plugin-publish") version "0.16.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.redpillanalytics.gradle-analytics") version "1.4.3"
+    id("com.github.breadmoirai.github-release") version "2.2.12"
+    id("com.adarshr.test-logger") version "3.0.0"
+    id("org.jetbrains.dokka") version "1.5.30"
+    id("build-dashboard")
     `java-gradle-plugin`
     kotlin("jvm") version "1.5.31"
     `kotlin-dsl`
-    `maven-publish`
 }
 
-group = "com.ridedott"
-version = "1.0.1"
+group = "com.redpillanalytics"
 
 repositories {
     google()
@@ -20,7 +24,7 @@ repositories {
 
 dependencies {
     implementation(platform("com.google.cloud:libraries-bom:23.1.0"))
-    implementation("com.google.cloud:google-cloud-storage") {
+    implementation("com.google.cloud:google-cloud-storage:2.1.7") {
         // exclude guava as it conflicts with the Android Gradle plugin
         exclude("com.google.guava:guava")
     }
@@ -30,18 +34,18 @@ dependencies {
 gradlePlugin {
     plugins {
         create("gcsBuildCache") {
-            id = "com.ridedott.gradle-gcs-build-cache"
-            implementationClass = "com.ridedott.gradle.buildcache.GCSBuildCachePlugin"
+            id = "com.redpillanalytics.gradle-build-cache"
+            implementationClass = "com.redpillanalytics.gradle.buildcache.GCSBuildCachePlugin"
             displayName = "GCS Build Cache"
-            description = "A Gradle build cache implementation that uses Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
+            description = "A Gradle Build Cache implementation using Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
         }
     }
 }
 
 pluginBundle {
-    website = "https://github.com/ridedott/gradle-gcs-build-cache"
-    vcsUrl = "https://github.com/ridedott/gradle-gcs-build-cache.git"
-    tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache")
+    website = "https://github.com/redpillanalytics/gradle-build-cache"
+    vcsUrl = "https://github.com/redpillanalytics/gradle-build-cache.git"
+    tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache", "Google Cloud Platform", "gcp")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -50,11 +54,18 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-// Workaround for runtime variants as discussed:
-// https://youtrack.jetbrains.com/issue/KT-45335
-configurations["runtimeElements"].attributes {
-    attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
-configurations["apiElements"].attributes {
-    attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+
+tasks.register("publish") {
+    description = "Custom publish task."
+    group = "publishing"
+    dependsOn(tasks.publishPlugins, tasks.githubRelease, tasks.build)
+}
+
+tasks.githubRelease {
+    mustRunAfter(tasks.build, tasks.publishPlugins)
 }
