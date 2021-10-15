@@ -33,11 +33,11 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("gcsBuildCache") {
+        create("buildCache") {
             id = "com.redpillanalytics.gradle-build-cache"
-            implementationClass = "com.redpillanalytics.gradle.buildcache.GCSBuildCachePlugin"
+            implementationClass = "com.redpillanalytics.buildcache.BuildCachePlugin"
             displayName = "GCS Build Cache"
-            description = "A Gradle Build Cache implementation using Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
+            description = "A Gradle Build Cache implementation using Google Cloud Storage (GCS). Since this is a settings plugin the build script snippets below won't work. Please consult the documentation on Github."
         }
     }
 }

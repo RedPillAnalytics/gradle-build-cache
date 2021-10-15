@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redpillanalytics.gradle.buildcache
+package com.redpillanalytics.buildcache
 
 import org.gradle.api.GradleException
 import org.gradle.caching.BuildCacheService
@@ -25,10 +25,10 @@ import org.gradle.caching.BuildCacheServiceFactory
  *
  * @author Thorsten Ehlers (thorsten.ehlers@googlemail.com) (initial creation)
  */
-class GCSBuildCacheServiceFactory : BuildCacheServiceFactory<GCSBuildCache> {
+class BuildCacheServiceFactory : BuildCacheServiceFactory<BuildCache> {
 
     override fun createBuildCacheService(
-        configuration: GCSBuildCache,
+        configuration: BuildCache,
         describer: BuildCacheServiceFactory.Describer,
     ): BuildCacheService {
         val bucket = configuration.bucket.takeIf { it.isNotEmpty() }
@@ -48,7 +48,7 @@ class GCSBuildCacheServiceFactory : BuildCacheServiceFactory<GCSBuildCache> {
             .config("bucket", bucket)
             .config("expireAfterSeconds", expireAfterSeconds.toString())
 
-        return GCSBuildCacheService(
+        return BuildCacheService(
             bucket,
             expireAfterSeconds,
             configuration.serviceAccountCredentialsFilePath,
