@@ -37,7 +37,8 @@ gradlePlugin {
             id = "com.redpillanalytics.gradle-build-cache"
             implementationClass = "com.redpillanalytics.gradle.buildcache.GCSBuildCachePlugin"
             displayName = "GCS Build Cache"
-            description = "A Gradle Build Cache implementation using Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
+            description =
+                "A Gradle Build Cache implementation using Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
         }
     }
 }
@@ -46,6 +47,13 @@ pluginBundle {
     website = "https://github.com/redpillanalytics/gradle-build-cache"
     vcsUrl = "https://github.com/redpillanalytics/gradle-build-cache.git"
     tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache", "Google Cloud Platform", "gcp")
+}
+
+githubRelease {
+    token(findProperty("githubToken").toString())
+    owner("RedPillAnalytics")
+    repo(rootProject.name)
+    overwrite(true)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
