@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redpillanalytics.gradle.buildcache
+package com.redpillanalytics.buildcache
 
 import com.google.auth.Credentials
 import com.google.auth.oauth2.ServiceAccountCredentials
@@ -39,7 +39,7 @@ import java.time.Instant
  *
  * @author Thorsten Ehlers (thorsten.ehlers@googlemail.com) (initial creation)
  */
-class GCSBuildCacheService(
+class BuildCacheService(
     private val bucketName: String,
     private val expireAfterSeconds: Long,
     serviceAccountCredentialsFilePath: String,

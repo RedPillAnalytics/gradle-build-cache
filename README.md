@@ -1,6 +1,6 @@
-# Gradle - GCSBuildCache
+# Gradle - BuildCache
 
-This Gradle plugin provides a build cache implementation that uses Google Cloud Storage to store build artifacts.
+A Gradle Build Cache implementation using Google Cloud Storage (GCS).
 
 ## Options
 
@@ -40,15 +40,32 @@ Now you're ready to use the Gradle remote build cache.
 
 ## Usage
 
-Add this plugin to your `settings.gradle.kts` as follows:
+Add the plugin to your `settings.gradle` as follows:
 
-```kotlin
+```groovy
 plugins {
-    id("com.redpillanalytics.gradle-build-cache") version "1.0.1"
+   id "com.redpillanalytics.gradle-build-cache" version "<version>"
 }
 
 buildCache {
-    remote<com.redpillanalytics.gradle.buildcache.GCSBuildCache> {
+   remote(com.redpillanalytics.buildcache.BuildCache) {
+      bucket = "my-bucket-name" // required
+      serviceAccountCredentialsFilePath = 'my-key.json' // optional
+      serviceAccountCredentialsJSON = "{ ... }" // optional
+      expireAfterSeconds = 60 * 60 * 24 // optional
+   }
+}
+```
+
+Add the plugin to your `settings.gradle.kts` as follows:
+
+```kotlin
+plugins {
+    id("com.redpillanalytics.gradle-build-cache") version "<version>"
+}
+
+buildCache {
+    remote<com.redpillanalytics.buildcache.BuildCache> {
         bucket = "my-bucket-name" // required
         serviceAccountCredentialsFilePath = 'my-key.json' // optional
         serviceAccountCredentialsJSON = "{ ... }" // optional
@@ -56,3 +73,4 @@ buildCache {
     }
 }
 ```
+
