@@ -47,25 +47,17 @@ pluginBundle {
     vcsUrl = "https://github.com/redpillanalytics/gradle-build-cache.git"
     tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache", "Google Cloud Platform", "gcp")
 }
-
+// even though this compiles 1.8 byte code, since the Java Compile tasks are not specified, gradle still produces variants
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
+// this will correct gradle variants to produce 1.8 JAR files
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
-}
-
-tasks.register("publish") {
-    description = "Custom publish task."
-    group = "publishing"
-    dependsOn(tasks.publishPlugins, tasks.githubRelease, tasks.build)
-}
-
-tasks.githubRelease {
-    mustRunAfter(tasks.build, tasks.publishPlugins)
 }
