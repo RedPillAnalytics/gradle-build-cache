@@ -43,18 +43,16 @@ pluginBundle {
     vcsUrl = "https://github.com/ridedott/gradle-gcs-build-cache.git"
     tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache")
 }
-
+// even though this compiles 1.8 byte code, since the Java Compile tasks are not specified, gradle still produces variants
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
-// Workaround for runtime variants as discussed:
-// https://youtrack.jetbrains.com/issue/KT-45335
-configurations["runtimeElements"].attributes {
-    attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
-}
-configurations["apiElements"].attributes {
-    attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+// this will correct gradle variants to produce 1.8 JAR files
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
